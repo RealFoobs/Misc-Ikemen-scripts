@@ -1,0 +1,20 @@
+# A simple script that disables the default power bars from fight.def for any character. 
+# Useful for characters with in-built power meter or unique resource management.
+# To activate, copy the follwing lines on any character's .def file (without the "#" symbol):
+
+#[Map]
+#hide_powerbars = 1
+
+#This will disable the power bar while your character is on screen on tag mode, and it'll show up again when you tag out.
+#If you want to go as far as hidding them at ALL times during tag matches, you can also include:
+
+#hide_powerbars_tag = 1
+
+[Statedef -4]
+
+Ignorehitpause if map(hide_powerbars) = 1 && teamleader < 3 {
+	assertSpecial{flag:nopowerbardisplay}
+	}
+	else if map(hide_powerbars_tag) = 1 && teammode = tag {
+	assertSpecial{flag:nopowerbardisplay}
+	}
