@@ -1,0 +1,68 @@
+[Statedef -2]
+
+#-----------------------CONFIG SECTION----------------------------
+
+# This controls the default theme to be played once the match is over. 
+# Change the number after "value:" to whichever theme you prefer.
+
+# 0 - Random crowd cheering.
+# 1 - Breakers Revenge's win theme.
+# 2 - Street Fighter IV's victory theme.
+# 3 - Soul Calibur II's victory theme.
+# 4 - Super Smash Bros Melee's stage clear theme.
+# 5 - Punch Out!!'s bout victory theme.
+# 6 - Streets of Rage's round clear theme.
+
+if roundstate = 0 && !map(f_fanfare_override) {
+	mapSet{map: "f_fanfare_bgm"; value: 1} # here
+	}
+
+# This will affect all the characters in your roster, you don't have to do anything else.
+# But if you want any specific character to break the mold and use a different theme...
+# Copy the following at the end of your character's .DEF file (minus the # symbol)
+
+#[Map]
+#f_fanfare_override = 1
+#f_fanfare_bgm = 
+
+# The number after "f_fanfare_bgm =" is, again, the theme you want for the character.
+# If you want to disable the function entirely, use -1 as a value.
+# I strongly recommend you to do so for attached chars.
+
+#--------------------END OF CONFIG SECTION------------------------
+
+
+
+	# Turns on once its respective condition has been fullfilled
+if roundstate < 4 {
+	mapSet{map: "f_fanfare_check"; value: 0}
+	}
+
+	# This is the part that actually plays the music
+Ignorehitpause if !map(f_fanfare_check) && map(f_fanfare_bgm) != -1 && matchover && roundstate = 4 && alive && teamleader < 3 {
+
+	if map(f_fanfare_bgm) = 1 {
+		playbgm{bgm:"data/fanfare/breakers.wav";loop:0}
+		}
+	else if map(f_fanfare_bgm) = 2 {
+		playbgm{bgm:"data/fanfare/sf4.mp3";loop:0}
+		}
+	else if map(f_fanfare_bgm) = 3 {
+		playbgm{bgm:"data/fanfare/sc2.mp3";loop:0}
+		}
+	else if map(f_fanfare_bgm) = 4 {
+		playbgm{bgm:"data/fanfare/ssbm.mp3";loop:0}
+		}
+	else if map(f_fanfare_bgm) = 5 {
+		playbgm{bgm:"data/fanfare/punchout.mp3";loop:0}
+		}
+	else if map(f_fanfare_bgm) = 6 {
+		playbgm{bgm:"data/fanfare/sor3.mp3";loop:0}
+		}
+	# If you want to add more sound samples, do it before this else.
+	else {
+		playbgm{bgm:"data/fanfare/crowd.wav";loop:0}
+		}
+	# A check so the music will only play once
+	mapAdd{map:"f_fanfare_check"; value: 1}
+	}
